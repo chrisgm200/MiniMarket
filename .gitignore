@@ -1,0 +1,22 @@
+# Archivos y carpetas de Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Binarios y compilados
+bin/
+obj/
+
+# Configuración de dependencias
+node_modules/
+lib/
+packages/
+*.cache
+*.log
+
+# Archivos temporales
+*.tmp
+*.db
+*.bak
