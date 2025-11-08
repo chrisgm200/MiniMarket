@@ -3,19 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MiniMarket - Sistema de Gestión</title>
+    <title>@ViewData["Title"] - MiniMarket</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.min.css" />
+    <!-- Font Awesome (CDN rápido) -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-pQv0Q+X..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MiniMarketWebApp.styles.css" asp-append-version="true" />
 
-    <!-- Favicon opcional -->
     <link rel="icon" type="image/png" href="~/img/favicon.png" />
 </head>
 
@@ -34,26 +35,11 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">
-                                <i class="fas fa-home me-1"></i>Inicio
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Productos" asp-action="Index">
-                                <i class="fas fa-boxes me-1"></i>Productos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Ventas" asp-action="Index">
-                                <i class="fas fa-cash-register me-1"></i>Ventas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" asp-controller="Reportes" asp-action="Index">
-                                <i class="fas fa-chart-line me-1"></i>Reportes
-                            </a>
-                        </li>
+                        <li><a class="nav-link text-white" asp-controller="Home" asp-action="Index"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                        <li><a class="nav-link text-white" asp-controller="Productos" asp-action="Index"><i class="fas fa-boxes me-1"></i>Productos</a></li>
+                        <li><a class="nav-link text-white" asp-controller="Categorias" asp-action="Index"><i class="fas fa-tags me-1"></i>Categorías</a></li>
+                        <li><a class="nav-link text-white" asp-controller="Ventas" asp-action="Index"><i class="fas fa-cash-register me-1"></i>Ventas</a></li>
+                        <li><a class="nav-link text-white" asp-controller="Reportes" asp-action="Index"><i class="fas fa-chart-line me-1"></i>Reportes</a></li>
                     </ul>
                 </div>
             </div>
@@ -62,6 +48,39 @@
 
     <!-- Contenido principal -->
     <div class="container mt-4 mb-5">
+
+        <!-- ✅ Bloque global de alertas -->
+        @if (TempData["success"] != null || TempData["error"] != null || TempData["warning"] != null)
+        {
+            string alertClass = "";
+            string alertIcon = "";
+            string alertMessage = "";
+
+            if (TempData["success"] != null)
+            {
+                alertClass = "alert-success";
+                alertIcon = "fas fa-check-circle";
+                alertMessage = TempData["success"]?.ToString();
+            }
+            else if (TempData["error"] != null)
+            {
+                alertClass = "alert-danger";
+                alertIcon = "fas fa-times-circle";
+                alertMessage = TempData["error"]?.ToString();
+            }
+            else if (TempData["warning"] != null)
+            {
+                alertClass = "alert-warning";
+                alertIcon = "fas fa-exclamation-triangle";
+                alertMessage = TempData["warning"]?.ToString();
+            }
+
+            <div class="alert @alertClass alert-dismissible fade show shadow-sm mt-3" role="alert">
+                <i class="@alertIcon me-2"></i>@alertMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

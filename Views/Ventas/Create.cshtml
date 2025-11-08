@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Registrar Venta";
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold text-primary mb-4"><i class="fas fa-plus-circle me-2"></i>Registrar Venta</h2>
+
+    <form asp-action="Create" method="post" id="ventaForm">
+        <div id="productosContainer">
+            <div class="row mb-2 producto-item">
+                <div class="col-md-6">
+                    <label>Producto</label>
+                    <select name="IdProducto" class="form-select" asp-items="ViewBag.Productos"></select>
+                </div>
+                <div class="col-md-3">
+                    <label>Cantidad</label>
+                    <input type="number" name="Cantidad" class="form-control" min="1" value="1" />
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger btn-sm remove-item"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-outline-primary mt-2" id="addItem">
+            <i class="fas fa-plus"></i> Agregar producto
+        </button>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Registrar Venta</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById("addItem").addEventListener("click", function () {
+            let container = document.getElementById("productosContainer");
+            let clone = container.firstElementChild.cloneNode(true);
+            container.appendChild(clone);
+        });
+
+        document.addEventListener("click", function (e) {
+            if (e.target.closest(".remove-item")) {
+                let item = e.target.closest(".producto-item");
+                if (document.querySelectorAll(".producto-item").length > 1)
+                    item.remove();
+            }
+        });
+    </script>
+}

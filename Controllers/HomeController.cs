@@ -13,20 +13,28 @@ namespace MiniMarketWebApp.Controllers
             _logger = logger;
         }
 
+        // Página principal del sistema
         public IActionResult Index()
         {
+            ViewData["Title"] = "Inicio - MiniMarket";
             return View();
         }
 
+        // Página de política de privacidad (opcional)
         public IActionResult Privacy()
         {
+            ViewData["Title"] = "Política de Privacidad";
             return View();
         }
 
+        // Vista de error global
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel
+            {
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            });
         }
     }
 }

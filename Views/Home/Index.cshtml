@@ -1,8 +1,54 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5 text-center">
+    <h1 class="fw-bold text-primary mb-3">
+        <i class="fas fa-store me-2"></i> Sistema de Gestión de Minimarket
+    </h1>
+    <p class="lead text-muted mb-4">
+        Administra productos, categorías, ventas y reportes de forma sencilla y eficiente.
+    </p>
+
+    <div class="row justify-content-center">
+        <div class="col-md-3 mb-3">
+            <a class="card text-decoration-none shadow-sm" asp-controller="Categorias" asp-action="Index">
+                <div class="card-body">
+                    <i class="fas fa-tags fa-2x text-primary mb-2"></i>
+                    <h5 class="card-title text-dark">Categorías</h5>
+                    <p class="text-muted small">Gestionar categorías de productos</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a class="card text-decoration-none shadow-sm" asp-controller="Productos" asp-action="Index">
+                <div class="card-body">
+                    <i class="fas fa-boxes fa-2x text-success mb-2"></i>
+                    <h5 class="card-title text-dark">Productos</h5>
+                    <p class="text-muted small">Registrar y controlar inventario</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a class="card text-decoration-none shadow-sm" asp-controller="Ventas" asp-action="Index">
+                <div class="card-body">
+                    <i class="fas fa-cash-register fa-2x text-warning mb-2"></i>
+                    <h5 class="card-title text-dark">Ventas</h5>
+                    <p class="text-muted small">Registrar transacciones y flujo de caja</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a class="card text-decoration-none shadow-sm" asp-controller="Reportes" asp-action="Index">
+                <div class="card-body">
+                    <i class="fas fa-chart-line fa-2x text-danger mb-2"></i>
+                    <h5 class="card-title text-dark">Reportes</h5>
+                    <p class="text-muted small">Visualizar informes de ventas</p>
+                </div>
+            </a>
+        </div>
+    </div>
 </div>

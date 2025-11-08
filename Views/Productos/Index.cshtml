@@ -1,0 +1,61 @@
+﻿@model IEnumerable<MiniMarketWebApp.Models.Producto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="fas fa-boxes me-2"></i>Gestión de Productos</h4>
+            <a asp-action="Create" class="btn btn-light btn-sm fw-bold">
+                <i class="fas fa-plus-circle me-1"></i> Nuevo Producto
+            </a>
+        </div>
+
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="text-center text-muted my-4">
+                    <i class="fas fa-info-circle fa-2x mb-2"></i>
+                    <p>No hay productos registrados aún.</p>
+                </div>
+            }
+            else
+            {
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Categoría</th>
+                            <th>Precio (S/)</th>
+                            <th>Stock</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.IdProducto</td>
+                                <td>@item.Nombre</td>
+                                <td>@item.Categoria?.Nombre</td>
+                                <td>@item.Precio.ToString("0.00")</td>
+                                <td>@item.Stock</td>
+                                <td class="text-center">
+                                    <a asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-sm btn-warning me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

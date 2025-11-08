@@ -1,0 +1,41 @@
+﻿@model MiniMarketWebApp.Models.Producto
+@{
+    ViewData["Title"] = "Editar Producto";
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold text-primary mb-3"><i class="fas fa-edit me-2"></i>Editar Producto</h2>
+
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="IdProducto" />
+
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Precio (S/)</label>
+                <input asp-for="Precio" class="form-control" />
+                <span asp-validation-for="Precio" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Stock</label>
+                <input asp-for="Stock" class="form-control" />
+                <span asp-validation-for="Stock" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Categoría</label>
+            <select asp-for="IdCategoria" class="form-select" asp-items="ViewBag.IdCategoria"></select>
+            <span asp-validation-for="IdCategoria" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Actualizar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

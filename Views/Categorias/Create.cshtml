@@ -1,0 +1,19 @@
+﻿@model MiniMarketWebApp.Models.Categoria
+@{
+    ViewData["Title"] = "Nueva Categoría";
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold text-primary mb-3"><i class="fas fa-plus-circle me-2"></i>Registrar Categoría</h2>
+
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input asp-for="Nombre" class="form-control" placeholder="Ej: Bebidas" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

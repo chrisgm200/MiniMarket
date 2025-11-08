@@ -1,0 +1,79 @@
+﻿@model IEnumerable<MiniMarketWebApp.Models.VentaDetalle>
+
+@{
+    ViewData["Title"] = "Reportes de Ventas";
+    var categorias = ViewData["Categorias"] as List<MiniMarketWebApp.Models.Categoria>;
+    var productos = ViewData["Productos"] as List<MiniMarketWebApp.Models.Producto>;
+}
+
+<div class="container mt-4">
+    <h2 class="fw-bold text-primary mb-3"><i class="fas fa-chart-line me-2"></i> Reporte de Ventas</h2>
+
+    <form asp-action="Index" method="get" class="row g-3 mb-4">
+        <div class="col-md-3">
+            <label class="form-label">Fecha Inicio</label>
+            <input type="date" name="fechaInicio" value="@ViewData["FechaInicio"]" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Fecha Fin</label>
+            <input type="date" name="fechaFin" value="@ViewData["FechaFin"]" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Categoría</label>
+            <select name="idCategoria" class="form-select">
+                <option value="">-- Todas --</option>
+                @foreach (var c in categorias)
+                {
+                    <option value="@c.IdCategoria" selected="@(ViewData["IdCategoria"]?.ToString() == c.IdCategoria.ToString())">@c.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Producto</label>
+            <select name="idProducto" class="form-select">
+                <option value="">-- Todos --</option>
+                @foreach (var p in productos)
+                {
+                    <option value="@p.IdProducto" selected="@(ViewData["IdProducto"]?.ToString() == p.IdProducto.ToString())">@p.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Filtrar</button>
+            <a asp-action="ExportarExcel" asp-route-fechaInicio="@ViewData["FechaInicio"]" asp-route-fechaFin="@ViewData["FechaFin"]" asp-route-idCategoria="@ViewData["IdCategoria"]" asp-route-idProducto="@ViewData["IdProducto"]" class="btn btn-success">
+                <i class="fas fa-file-excel"></i> Exportar Excel
+            </a>
+        </div>
+    </form>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal (S/)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td>@d.Venta.Fecha.ToString("dd/MM/yyyy")</td>
+                        <td>@d.Producto.Nombre</td>
+                        <td>@d.Producto.Categoria.Nombre</td>
+                        <td>@d.Cantidad</td>
+                        <td>@d.SubTotal.ToString("F2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info">No hay resultados para los filtros seleccionados.</div>
+    }
+</div>
