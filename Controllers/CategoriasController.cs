@@ -2,9 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using MiniMarketWebApp.Data;
 using MiniMarketWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniMarketWebApp.Controllers
 {
+    [Authorize]
     public class CategoriasController : Controller
     {
         private readonly MiniMarketContext _context;

@@ -24,8 +24,8 @@
             }
             else
             {
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
+                <table class="table table-modern table-hover align-middle shadow-sm">
+                    <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
@@ -33,16 +33,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var categoria in Model)
+                        @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@categoria.IdCategoria</td>
-                                <td>@categoria.Nombre</td>
+                                <td>@item.IdCategoria</td>
+                                <td>@item.Nombre</td>
                                 <td class="text-center">
-                                    <a asp-action="Edit" asp-route-id="@categoria.IdCategoria" class="btn btn-sm btn-warning me-1">
+                                    <a asp-action="Edit" asp-route-id="@item.IdCategoria"
+                                       class="btn btn-warning btn-sm btn-action btn-edit me-1">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@categoria.IdCategoria" class="btn btn-sm btn-danger">
+                                    <a asp-action="Delete" asp-route-id="@item.IdCategoria"
+                                       class="btn btn-danger btn-sm btn-action btn-delete">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
@@ -50,6 +52,7 @@
                         }
                     </tbody>
                 </table>
+
             }
         </div>
     </div>

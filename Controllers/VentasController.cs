@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MiniMarketWebApp.Data;
 using MiniMarketWebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiniMarketWebApp.Controllers
 {
+    [Authorize]
     public class VentasController : Controller
     {
         private readonly MiniMarketContext _context;
@@ -88,5 +90,21 @@ namespace MiniMarketWebApp.Controllers
             TempData["success"] = "Venta registrada correctamente ✅";
             return RedirectToAction(nameof(Index));
         }
+        // GET: Ventas/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var venta = await _context.Ventas
+                .Include(v => v.Detalles)
+                    .ThenInclude(d => d.Producto)
+                        .ThenInclude(p => p.Categoria)
+                .FirstOrDefaultAsync(v => v.IdVenta == id);
+
+            if (venta == null) return NotFound();
+
+            return View(venta);
+        }
+
     }
 }

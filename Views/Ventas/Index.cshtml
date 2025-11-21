@@ -15,6 +15,7 @@
                 <th>ID</th>
                 <th>Fecha</th>
                 <th>Total (S/)</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,13 @@
                     <td class="text-center">@v.IdVenta</td>
                     <td>@v.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
                     <td class="text-end fw-bold">@v.Total.ToString("0.00")</td>
+
+                    <td class="text-center">
+                        <a asp-action="Details" asp-route-id="@v.IdVenta"
+                           class="btn btn-sm btn-info text-white">
+                            <i class="fas fa-eye"></i> Ver Detalle
+                        </a>
+                    </td>
                 </tr>
             }
         </tbody>

@@ -14,6 +14,7 @@ namespace MiniMarketWebApp.Data
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Venta> Ventas { get; set; }
         public DbSet<VentaDetalle> VentaDetalles { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
     }
 }

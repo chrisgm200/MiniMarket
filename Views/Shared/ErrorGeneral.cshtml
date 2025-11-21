@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Error del sistema";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-4 text-danger fw-bold">
+        <i class="fas fa-bug me-2"></i> Error inesperado
+    </h1>
+
+    <p class="text-muted mb-4">
+        Ha ocurrido un error dentro del sistema.
+        No te preocupes, no es tu culpa.
+    </p>
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-2">
+        <i class="fas fa-home me-1"></i> Volver al inicio
+    </a>
+</div>

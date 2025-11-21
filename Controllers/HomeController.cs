@@ -36,5 +36,15 @@ namespace MiniMarketWebApp.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });
         }
+        public IActionResult Error404()
+        {
+            return View();
+        }
+
+        public IActionResult ErrorGeneral()
+        {
+            return View("ErrorGeneral");
+        }
+
     }
 }

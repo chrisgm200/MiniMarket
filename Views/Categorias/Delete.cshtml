@@ -20,17 +20,35 @@
                 <dd class="col-sm-9">@Model.Nombre</dd>
             </dl>
 
-            <form asp-action="Delete" method="post">
-                <input type="hidden" asp-for="IdCategoria" />
+            <button type="button" class="btn btn-danger"
+                    onclick="confirmarEliminacion('@Url.Action("Delete", "Categorias", new { id = Model.IdCategoria })')">
+                <i class="fas fa-trash"></i> Eliminar
+            </button>
 
-                <button type="submit" class="btn btn-danger me-2">
-                    <i class="fas fa-trash"></i> Eliminar
-                </button>
-
-                <a asp-action="Index" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Cancelar
-                </a>
-            </form>
+            <a asp-action="Index" class="btn btn-secondary ms-2">
+                <i class="fas fa-arrow-left me-1"></i> Cancelar
+            </a>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function confirmarEliminacion(url) {
+            Swal.fire({
+                title: '¿Eliminar registro?',
+                text: "Esta acción no se puede deshacer",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = url;
+                }
+            });
+        }
+    </script>
+}

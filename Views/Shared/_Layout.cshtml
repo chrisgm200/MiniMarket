@@ -8,7 +8,7 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <!-- Font Awesome (CDN rápido) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
           integrity="sha512-pQv0Q+X..." crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -40,7 +40,29 @@
                         <li><a class="nav-link text-white" asp-controller="Categorias" asp-action="Index"><i class="fas fa-tags me-1"></i>Categorías</a></li>
                         <li><a class="nav-link text-white" asp-controller="Ventas" asp-action="Index"><i class="fas fa-cash-register me-1"></i>Ventas</a></li>
                         <li><a class="nav-link text-white" asp-controller="Reportes" asp-action="Index"><i class="fas fa-chart-line me-1"></i>Reportes</a></li>
+
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user me-1"></i>@User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+                                    <li>
+                                        <form method="post" asp-controller="Auth" asp-action="Logout" class="px-3 py-2">
+                                            @Html.AntiForgeryToken()
+                                            <button class="btn btn-link text-danger">Cerrar sesión</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><a class="nav-link text-white" asp-controller="Auth" asp-action="Login"><i class="fas fa-sign-in-alt me-1"></i>Entrar</a></li>
+                        }
                     </ul>
+
                 </div>
             </div>
         </nav>
@@ -48,39 +70,6 @@
 
     <!-- Contenido principal -->
     <div class="container mt-4 mb-5">
-
-        <!-- ✅ Bloque global de alertas -->
-        @if (TempData["success"] != null || TempData["error"] != null || TempData["warning"] != null)
-        {
-            string alertClass = "";
-            string alertIcon = "";
-            string alertMessage = "";
-
-            if (TempData["success"] != null)
-            {
-                alertClass = "alert-success";
-                alertIcon = "fas fa-check-circle";
-                alertMessage = TempData["success"]?.ToString();
-            }
-            else if (TempData["error"] != null)
-            {
-                alertClass = "alert-danger";
-                alertIcon = "fas fa-times-circle";
-                alertMessage = TempData["error"]?.ToString();
-            }
-            else if (TempData["warning"] != null)
-            {
-                alertClass = "alert-warning";
-                alertIcon = "fas fa-exclamation-triangle";
-                alertMessage = TempData["warning"]?.ToString();
-            }
-
-            <div class="alert @alertClass alert-dismissible fade show shadow-sm mt-3" role="alert">
-                <i class="@alertIcon me-2"></i>@alertMessage
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        }
-
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -89,14 +78,66 @@
     <!-- Footer -->
     <footer class="footer bg-dark text-light py-3 mt-auto">
         <div class="container text-center">
-            <small>&copy; 2025 - MiniMarket WebApp | Desarrollado con <i class="fas fa-heart text-danger"></i> en ASP.NET Core MVC</small>
+            <small>
+                &copy; 2025 - MiniMarket WebApp | Desarrollado con
+                <i class="fas fa-heart text-danger"></i> en ASP.NET Core MVC
+            </small>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Scripts globales -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Script para mostrar mensajes almacenados en TempData -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            // Mensaje Exitoso
+            @if (TempData["success"] != null)
+            {
+                    <text>
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Éxito',
+                            text: '@TempData["success"]',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    </text>
+            }
+
+            // Mensaje Error
+            @if (TempData["error"] != null)
+            {
+                    <text>
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: '@TempData["error"]',
+                            confirmButtonColor: '#d33'
+                        });
+                    </text>
+            }
+
+            // Mensaje Advertencia
+            @if (TempData["warning"] != null)
+            {
+                    <text>
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Aviso',
+                            text: '@TempData["warning"]',
+                            confirmButtonColor: '#f1c40f'
+                        });
+                    </text>
+            }
+        });
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

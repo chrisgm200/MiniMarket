@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-lock me-2"></i> Iniciar sesión</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Login" method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label">Correo</label>
+                            <input type="email" name="email" class="form-control" required />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <input type="password" name="password" class="form-control" required />
+                        </div>
+
+                        <button type="submit" class="btn-main w-100">
+                            <i class="fas fa-sign-in-alt me-1"></i> Iniciar sesión
+                        </button>
+                    </form>
+                    <div class="text-muted small mt-3">
+                        Usuario admin: admin@minimarket.local / Admin123!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
