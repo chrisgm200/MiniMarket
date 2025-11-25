@@ -10,7 +10,10 @@
             <div class="row mb-2 producto-item">
                 <div class="col-md-6">
                     <label>Producto</label>
-                    <select name="IdProducto" class="form-select" asp-items="ViewBag.Productos"></select>
+                    <input type="text" class="form-control buscar-producto" placeholder="Buscar producto..." autocomplete="off" />
+                    <input type="hidden" name="IdProducto" class="producto-id" />
+                    <div class="lista-resultados border rounded bg-white shadow-sm position-absolute w-50" style="z-index: 999; display:none;"></div>
+
                 </div>
                 <div class="col-md-3">
                     <label>Cantidad</label>
@@ -34,13 +37,23 @@
 </div>
 
 @section Scripts {
+
     <script>
+        // Al clonar campos (ÚNICO SCRIPT CORRECTO)
         document.getElementById("addItem").addEventListener("click", function () {
             let container = document.getElementById("productosContainer");
             let clone = container.firstElementChild.cloneNode(true);
+
+            // Limpiar campos
+            $(clone).find(".buscar-producto").val("");
+            $(clone).find(".producto-id").val("");
+            $(clone).find("div.lista-resultados").hide();
+            $(clone).find("input[name='Cantidad']").val("1");
+
             container.appendChild(clone);
         });
 
+        // Eliminar item
         document.addEventListener("click", function (e) {
             if (e.target.closest(".remove-item")) {
                 let item = e.target.closest(".producto-item");
@@ -48,5 +61,44 @@
                     item.remove();
             }
         });
+
+        // AUTOCOMPLETE – Buscar productos al escribir
+        $(document).on("keyup", ".buscar-producto", function () {
+            let input = $(this);
+            let query = input.val();
+            let contenedor = input.closest(".producto-item");
+            let resultados = contenedor.find(".lista-resultados");
+
+            if (query.length < 2) {
+                resultados.hide();
+                return;
+            }
+
+            $.get("/Ventas/BuscarProducto", { term: query }, function (data) {
+                resultados.empty();
+
+                data.forEach(p => {
+                    resultados.append(`
+                        <div class="p-2 resultado-item" data-id="${p.id}" data-text="${p.text}">
+                            <strong>${p.text}</strong><br>
+                            <small>Precio: S/ ${p.precio} | Stock: ${p.stock}</small>
+                        </div>
+                    `);
+                });
+
+                resultados.show();
+            });
+        });
+
+        // AUTOCOMPLETE – Al seleccionar producto
+        $(document).on("click", ".resultado-item", function () {
+            let item = $(this);
+            let contenedor = item.closest(".producto-item");
+
+            contenedor.find(".buscar-producto").val(item.data("text"));
+            contenedor.find(".producto-id").val(item.data("id"));
+            contenedor.find(".lista-resultados").hide();
+        });
     </script>
 }
+

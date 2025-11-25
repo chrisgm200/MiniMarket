@@ -105,6 +105,28 @@ namespace MiniMarketWebApp.Controllers
 
             return View(venta);
         }
+        // 🔍 AUTOCOMPLETE DE PRODUCTOS
+        [HttpGet]
+        public async Task<IActionResult> BuscarProducto(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+                return Json(new List<object>());
+
+            var productos = await _context.Productos
+                .Where(p => p.Nombre.Contains(term))
+                .Select(p => new
+                {
+                    id = p.IdProducto,
+                    text = p.Nombre,
+                    precio = p.Precio,
+                    stock = p.Stock
+                })
+                .Take(20)
+                .ToListAsync();
+
+            return Json(productos);
+        }
+
 
     }
 }
