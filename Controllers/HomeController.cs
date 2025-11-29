@@ -41,10 +41,17 @@ namespace MiniMarketWebApp.Controllers
             return View();
         }
 
-        public IActionResult ErrorGeneral()
+        // Acción para forzar un error 500
+        public IActionResult ForzarError500()
         {
-            return View("ErrorGeneral");
+            throw new Exception("Error forzado");
         }
 
+        // Acción para manejar la vista del error general
+        [Route("Home/ErrorGeneral")]
+        public IActionResult ErrorGeneral()
+        {
+            return View();
+        }
     }
 }

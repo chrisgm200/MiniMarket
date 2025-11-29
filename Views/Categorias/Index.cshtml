@@ -15,6 +15,24 @@
         </div>
 
         <div class="card-body">
+
+            <!-- 🔔 MENSAJES DE ALERTA PARA LOS TESTS -->
+            @if (TempData["success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            <!-- 🔔 FIN ALERTAS -->
             @if (!Model.Any())
             {
                 <div class="text-center text-muted my-4">

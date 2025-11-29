@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace MiniMarketWebApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador")]   // 🔒 SOLO ADMINISTRADOR
     public class ReportesController : Controller
     {
         private readonly MiniMarketContext _context;
@@ -77,18 +77,15 @@ namespace MiniMarketWebApp.Controllers
 
             var data = await query.OrderByDescending(d => d.Venta.Fecha).ToListAsync();
 
-            // 🧾 Crear libro de Excel con ClosedXML
             using var workbook = new XLWorkbook();
             var ws = workbook.Worksheets.Add("ReporteVentas");
 
-            // Título
             ws.Cell("A1").Value = "Reporte de Ventas";
             ws.Range("A1:E1").Merge()
                 .Style.Font.SetBold()
                 .Font.SetFontSize(14)
                 .Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
-            // Encabezados
             ws.Cell("A3").Value = "Fecha";
             ws.Cell("B3").Value = "Producto";
             ws.Cell("C3").Value = "Categoría";
@@ -114,7 +111,6 @@ namespace MiniMarketWebApp.Controllers
                 row++;
             }
 
-            // Total general
             ws.Cell(row, 4).Value = "TOTAL:";
             ws.Cell(row, 4).Style.Font.SetBold();
             ws.Cell(row, 5).Value = total;
@@ -123,13 +119,9 @@ namespace MiniMarketWebApp.Controllers
                 .Fill.SetBackgroundColor(XLColor.LightYellow)
                 .NumberFormat.SetFormat("S/ #,##0.00");
 
-            // Ajustar ancho de columnas
             ws.Columns().AdjustToContents();
-
-            // Aplicar auto-filtro
             ws.Range("A3:E3").SetAutoFilter();
 
-            // Descargar archivo
             using var stream = new MemoryStream();
             workbook.SaveAs(stream);
             stream.Position = 0;
@@ -139,5 +131,6 @@ namespace MiniMarketWebApp.Controllers
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 excelName);
         }
+
     }
 }

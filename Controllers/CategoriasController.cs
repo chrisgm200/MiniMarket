@@ -40,7 +40,7 @@ namespace MiniMarketWebApp.Controllers
                 {
                     _context.Add(categoria);
                     await _context.SaveChangesAsync();
-                    TempData["success"] = "Categoría registrada correctamente ✅";
+                    TempData["success"] = "Categoría registrada correctamente";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
@@ -75,12 +75,12 @@ namespace MiniMarketWebApp.Controllers
                 {
                     _context.Update(categoria);
                     await _context.SaveChangesAsync();
-                    TempData["success"] = "Categoría actualizada correctamente ✅";
+                    TempData["success"] = "Categoría actualizada correctamente";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CategoriaExists(categoria.IdCategoria))
+                    if (!_context.Categorias.Any(e => e.IdCategoria == categoria.IdCategoria))
                         return NotFound();
                     else
                         throw;
@@ -106,7 +106,8 @@ namespace MiniMarketWebApp.Controllers
             return View(categoria);
         }
 
-        // POST: Categorias/Delete/5
+        // POST: Categorias/Delete
+        // Mantener ActionName("Delete") para que el route sea /Categorias/Delete (POST).
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -119,11 +120,11 @@ namespace MiniMarketWebApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // 🧩 Verifica si tiene productos asociados
+            // Verifica si tiene productos asociados
             bool tieneProductos = await _context.Productos.AnyAsync(p => p.IdCategoria == id);
             if (tieneProductos)
             {
-                TempData["error"] = "No se puede eliminar la categoría porque tiene productos asociados ⚠️";
+                TempData["error"] = "No se puede eliminar la categoría porque tiene productos asociados";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -131,7 +132,7 @@ namespace MiniMarketWebApp.Controllers
             {
                 _context.Categorias.Remove(categoria);
                 await _context.SaveChangesAsync();
-                TempData["success"] = "Categoría eliminada correctamente 🗑️";
+                TempData["success"] = "Categoría eliminada correctamente";
             }
             catch (Exception ex)
             {
@@ -139,11 +140,6 @@ namespace MiniMarketWebApp.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CategoriaExists(int id)
-        {
-            return _context.Categorias.Any(e => e.IdCategoria == id);
         }
     }
 }

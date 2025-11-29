@@ -44,12 +44,12 @@ namespace MiniMarketWebApp.Controllers
                 {
                     _context.Add(producto);
                     await _context.SaveChangesAsync();
-                    TempData["success"] = "✅ Producto registrado correctamente";
+                    TempData["success"] = "Producto registrado correctamente";
                     return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    TempData["error"] = "❌ Error al guardar: " + ex.Message;
+                    TempData["error"] = "Error al guardar: " + ex.Message;
                 }
             }
             else
@@ -88,7 +88,9 @@ namespace MiniMarketWebApp.Controllers
             {
                 _context.Update(producto);
                 await _context.SaveChangesAsync();
-                TempData["success"] = "Producto actualizado correctamente ✅";
+
+                TempData["success"] = "Producto actualizado correctamente";
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -115,12 +117,15 @@ namespace MiniMarketWebApp.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var producto = await _context.Productos.FindAsync(id);
+
             if (producto != null)
             {
                 _context.Productos.Remove(producto);
                 await _context.SaveChangesAsync();
-                TempData["success"] = "Producto eliminado correctamente 🗑️";
+
+                TempData["success"] = "Producto eliminado correctamente";
             }
+
             return RedirectToAction(nameof(Index));
         }
     }

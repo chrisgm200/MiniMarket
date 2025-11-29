@@ -32,8 +32,8 @@ var app = builder.Build();
 // ============================
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/ErrorGeneral");
-    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+    app.UseExceptionHandler("/Home/ErrorGeneral");  // Ruta para errores generales
+    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}"); // Ruta para otros errores HTTP
     app.UseHsts();
 }
 
@@ -45,8 +45,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Manejo de error 404 personalizado
-app.UseStatusCodePagesWithReExecute("/Home/Error404");
-
+app.UseStatusCodePagesWithReExecute("/Home/Error404");  // Ruta personalizada para 404
 
 // ============================
 //   Crear usuarios iniciales

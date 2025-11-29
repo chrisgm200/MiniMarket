@@ -57,7 +57,7 @@ namespace MiniMarketWebApp.Controllers
 
                 if (Cantidad[i] > producto.Stock)
                 {
-                    TempData["error"] = $"No hay suficiente stock para el producto {producto.Nombre}.";
+                    TempData["error"] = "No hay suficiente stock para el producto.";
                     return RedirectToAction(nameof(Create));
                 }
 
@@ -90,6 +90,7 @@ namespace MiniMarketWebApp.Controllers
             TempData["success"] = "Venta registrada correctamente ✅";
             return RedirectToAction(nameof(Index));
         }
+
         // GET: Ventas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -105,6 +106,7 @@ namespace MiniMarketWebApp.Controllers
 
             return View(venta);
         }
+
         // 🔍 AUTOCOMPLETE DE PRODUCTOS
         [HttpGet]
         public async Task<IActionResult> BuscarProducto(string term)
@@ -126,7 +128,5 @@ namespace MiniMarketWebApp.Controllers
 
             return Json(productos);
         }
-
-
     }
 }

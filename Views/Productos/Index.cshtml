@@ -4,6 +4,34 @@
     ViewData["Title"] = "Productos";
 }
 
+<!-- SweetAlert para mensajes -->
+@if (TempData["success"] != null)
+{
+    <div id="swal-success-container">
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '@TempData["success"]',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        </script>
+    </div>
+}
+@if (TempData["error"] != null)
+{
+    <div id="swal-error-container">
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '@TempData["error"]',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        </script>
+    </div>
+}
+
 <div class="container mt-4">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
@@ -57,7 +85,6 @@
                         }
                     </tbody>
                 </table>
-
             }
         </div>
     </div>
